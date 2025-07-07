@@ -1,0 +1,60 @@
+@model VillaNumberViewModel
+
+@{
+    ViewBag.Title = "Update Villa Number";
+}
+
+<div class="w-100 card border-0 p-4">
+    <div class="card-header bg-success bg-gradient ml-0 py-3 rounded-top">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Update Villa Number</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body border p-4">
+        <form method="POST" class="row">
+            <div class="pb-3">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="VillaNumber.Villa.Name" disabled="disabled" class="form-control border shadow"/>
+                    <label asp-for="VillaNumber.Villa.Name" class="ms-2"></label>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="VillaNumber.VillaNumberId" readonly="readonly" class="form-control border shadow"/>
+                    <label asp-for="VillaNumber.VillaNumberId" class="ms-2"></label>
+                    <span asp-validation-for="VillaNumber.VillaNumberId" class="text-danger"></span>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="VillaNumber.SpecialDetails" disabled="disabled" class="form-control border shadow"/>
+                    <label asp-for="VillaNumber.SpecialDetails" class="ms-2"></label>
+                    <span asp-validation-for="VillaNumber.SpecialDetails" class="text-danger"></span>
+                </div>
+                <div class="row pt-2">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-danger w-100">
+                            <i class="bi bi-trash-fill">
+                                Delete
+                            </i>
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a
+                            asp-controller="VillaNumber"
+                            asp-action="Index"
+                            class="btn btn-secondary w-100">
+                            <i class="bi bi-x-circle">
+                                Cancel
+                            </i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"/>
+}

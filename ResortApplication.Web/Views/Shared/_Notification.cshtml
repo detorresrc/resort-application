@@ -1,0 +1,20 @@
+@if (TempData["error"] is not null)
+{
+    <script>
+        toastr.error('@TempData["error"]', 'Error', {
+            closeButton: true,
+            progressBar: true,
+            timeOut: 5000
+        });
+    </script>
+}
+@if (TempData["success"] is not null)
+{
+    <script>
+        toastr.success('@TempData["success"]', 'Success', {
+            closeButton: true,
+            progressBar: true,
+            timeOut: 5000
+        });
+    </script>
+}
