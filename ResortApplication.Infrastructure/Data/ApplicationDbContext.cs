@@ -7,10 +7,23 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 {
     public DbSet<Villa> Villas { get; set; }
     public DbSet<VillaNumber> VillaNumbers { get; set; }
+    public DbSet<Amenity> Amenities { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        
+        modelBuilder.Entity<Amenity>()
+            .HasOne(a => a.Villa)
+            .WithMany(v => v.Amenities)
+            .HasForeignKey(a => a.VillaId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<VillaNumber>()
+            .HasOne(a => a.Villa)
+            .WithMany(v => v.VillaNumbers)
+            .HasForeignKey(a => a.VillaId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Villa>().HasData(
             new Villa
