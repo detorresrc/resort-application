@@ -1,19 +1,23 @@
 using Microsoft.AspNetCore.Mvc;
+using ResortApplication.Application.Common.Interfaces;
+using ResortApplication.Web.ViewModels;
 
 namespace ResortApplication.Web.Controllers;
 
-public class HomeController : Controller
+public class HomeController(IUnitOfWork unitOfWork) : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    
 
-    public HomeController(ILogger<HomeController> logger)
+    public async Task<IActionResult> Index()
     {
-        _logger = logger;
-    }
-
-    public IActionResult Index()
-    {
-        return View();
+        HomeViewModel vm = new()
+        {
+            VillaList = await unitOfWork.Villa.GetAllAsync(filter: null, includeProperties: "Amenities"),
+            NumberOfNights = 1,
+            CheckInDate = DateOnly.FromDateTime(DateTime.Now)
+        };
+        
+        return View(vm);
     }
 
     public IActionResult Privacy()
