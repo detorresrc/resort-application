@@ -4,7 +4,9 @@ using ResortApplication.Domain.Entities;
 
 namespace ResortApplication.Web.Controllers;
 
-public class VillaController(IUnitOfWork unitOfWork) : Controller
+public class VillaController(
+    IUnitOfWork unitOfWork,
+    IWebHostEnvironment webHostEnvironment) : Controller
 {
     public async Task<IActionResult> Index()
     {
@@ -25,6 +27,21 @@ public class VillaController(IUnitOfWork unitOfWork) : Controller
             ModelState.AddModelError("Name", "The Villa Name cannot be the same as the Description");
 
         if (!ModelState.IsValid) return View();
+
+        if (villa.Image is not null)
+        {
+            var fileName = Guid.NewGuid() + Path.GetExtension(villa.Image.FileName);
+            var imagePath = Path.Combine(webHostEnvironment.WebRootPath, "images", "Villa");
+
+            await using var fs = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create);
+            await villa.Image.CopyToAsync(fs);
+
+            villa.ImageUrl = $"/images/Villa/{fileName}";
+        }
+        else
+        {
+            villa.ImageUrl = "https://placehold.co/600x400";
+        }
 
         unitOfWork.Villa.Add(villa);
         await unitOfWork.SaveAsync();
@@ -51,6 +68,23 @@ public class VillaController(IUnitOfWork unitOfWork) : Controller
 
         if (!ModelState.IsValid) return View();
 
+        if (villa.Image is not null)
+        {
+            var fileName = Guid.NewGuid() + Path.GetExtension(villa.Image.FileName);
+            var imagePath = Path.Combine(webHostEnvironment.WebRootPath, "images", "Villa");
+
+            if (!string.IsNullOrEmpty(villa.ImageUrl))
+            {
+                var oldImage = Path.Combine(webHostEnvironment.WebRootPath, villa.ImageUrl.TrimStart('\\').TrimStart('/'));
+                if (System.IO.File.Exists(oldImage)) System.IO.File.Delete(oldImage);
+            }
+
+            await using var fs = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create);
+            await villa.Image.CopyToAsync(fs);
+
+            villa.ImageUrl = $"/images/Villa/{fileName}";
+        }
+
         unitOfWork.Villa.Update(villa);
         await unitOfWork.SaveAsync();
         TempData["success"] = "Villa updated successfully";
@@ -75,6 +109,13 @@ public class VillaController(IUnitOfWork unitOfWork) : Controller
 
         unitOfWork.Villa.Delete(villa);
         await unitOfWork.SaveAsync();
+        
+        if (!string.IsNullOrEmpty(villaToDelete.ImageUrl))
+        {
+            var oldImage = Path.Combine(webHostEnvironment.WebRootPath, villaToDelete.ImageUrl.TrimStart('\\').TrimStart('/'));
+            if (System.IO.File.Exists(oldImage)) System.IO.File.Delete(oldImage);
+        }
+        
         TempData["success"] = "Villa deleted successfully";
         return RedirectToAction("Index", "Villa");
     }

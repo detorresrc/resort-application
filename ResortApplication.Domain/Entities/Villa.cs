@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 
 namespace ResortApplication.Domain.Entities;
 
@@ -21,7 +23,11 @@ public class Villa
     [Range(1, 10, ErrorMessage = "Occupancy must be between 1 and 10")]
     public int Occupancy { get; set; }
 
+    [NotMapped] public IFormFile? Image { get; set; }
     [Display(Name = "Image Url")] public string? ImageUrl { get; set; }
+    
+    public ICollection<Amenity> Amenities { get; set; } = new List<Amenity>();
+    public ICollection<VillaNumber> VillaNumbers { get; set; } = new List<VillaNumber>();
 
     public DateTime? CreatedDate { get; set; }
     public DateTime? UpdatedDate { get; set; }

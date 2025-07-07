@@ -12,11 +12,13 @@ public class UnitOfWork : IUnitOfWork
         _db = db;
         Villa = new VillaRepository(_db);
         VillaNumber = new VillaNumberRepository(_db);
+        Amenity = new AmenityRepository(_db);
     }
 
     public IVillaRepository Villa { get; }
     public IVillaNumberRepository VillaNumber { get; }
-    
+    public IAmenityRepository Amenity { get; }
+
     public async Task<int> SaveAsync()
     {
         return await _db.SaveChangesAsync();
