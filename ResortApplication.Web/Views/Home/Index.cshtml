@@ -34,11 +34,7 @@
     </div>
     <form method="post" 
           style="background-color:black"
-          asp-action="GetVillasByDate"
-          data-ajax-method="POST"
-          data-ajax="true"
-          data-ajax-model="replace-with"
-          data-ajax-update="#VillasList">
+          asp-action="GetVillasByDate">
         <div class="row p-0 mx-0 py-4">
 
             <div class="col-12 col-md-5  offset-md-1 pl-2  pr-2 pr-md-0">
@@ -62,7 +58,7 @@
 
             <div class="col-4 col-md-2 pt-4 pr-2">
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success btn-block">
+                    <button type="button" onclick="fnLoadVillaList()" class="btn btn-success btn-block">
                         <i class="bi bi-search"></i> &nbsp; Check Availability
                     </button>
 
@@ -76,3 +72,28 @@
         </div>
     </form>
 </div>
+@section scripts {
+<script>
+    function fnLoadVillaList(){
+        $("#loading-spinner").fadeIn('fast');
+        
+        $.ajax({
+            url: '@Url.Action("GetVillasByDate")',
+            type: 'POST',
+            data: {
+                checkInDate: $("#CheckInDate").val(),
+                numberOfNights: $("#NumberOfNights").val(),
+            },
+            success: function (data) {
+                $("#VillasList")
+                    .empty()
+                    .html(data);
+            },
+            complete: function () {
+                $("#loading-spinner").fadeOut('slow');
+            },
+        });    
+    }
+    
+</script>
+}
