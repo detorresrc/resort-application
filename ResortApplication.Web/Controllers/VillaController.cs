@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ResortApplication.Application.Common;
 using ResortApplication.Application.Common.Interfaces;
 using ResortApplication.Domain.Entities;
 
 namespace ResortApplication.Web.Controllers;
 
+[Authorize(Roles = SD.RoleAdmin)]
 public class VillaController(
     IUnitOfWork unitOfWork,
     IWebHostEnvironment webHostEnvironment) : Controller

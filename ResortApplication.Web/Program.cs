@@ -12,9 +12,26 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+builder.Services.ConfigureApplicationCookie(option =>
+{
+    option.AccessDeniedPath = "/Account/AccessDenied";
+    option.LoginPath = "/Account/Login";
+    option.LogoutPath = "/Account/Logout";
+});
+builder.Services.Configure<IdentityOptions>(option =>
+{
+    // Just for demo purposes, we are setting weak password requirements.
+    option.Password.RequiredLength = 6;
+    option.Password.RequireDigit = false;
+    option.Password.RequireLowercase = false;
+    option.Password.RequireUppercase = false;
+    option.Password.RequireNonAlphanumeric = false;
+});
+
 builder.Services.AddApplicationServices();
 
 var app = builder.Build();

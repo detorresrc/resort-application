@@ -71,8 +71,8 @@
                 {
                     @foreach (var villa in Model.VillaList)
                     {
-                        <partial name="_VillaCard" model="@villa"/>
-                        <partial name="_VillaModal" model="@villa"/>
+                        <partial name="_VillaCardPartial" model="@villa"/>
+                        <partial name="_VillaModalPartial" model="@villa"/>
                     }
                 }
             </div>

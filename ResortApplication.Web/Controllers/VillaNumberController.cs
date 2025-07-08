@@ -1,11 +1,14 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using ResortApplication.Application.Common;
 using ResortApplication.Application.Common.Interfaces;
 using ResortApplication.Domain.Entities;
 using ResortApplication.Web.ViewModels.VillaNumber;
 
 namespace ResortApplication.Web.Controllers;
 
+[Authorize(Roles = SD.RoleAdmin)]
 public class VillaNumberController(IUnitOfWork unitOfWork) : Controller
 {
     public async Task<IActionResult> Index()
