@@ -34,7 +34,7 @@ public class HomeController(IUnitOfWork unitOfWork) : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> GetVillasByDate(int nights, DateOnly checkInDate)
+    public async Task<IActionResult> GetVillasByDate(int numberOfNights, DateOnly checkInDate)
     {
         var villaList = await unitOfWork.Villa.GetAllAsync(filter: null, includeProperties: "Amenities"); //TODO: filter by dates
 
@@ -49,7 +49,7 @@ public class HomeController(IUnitOfWork unitOfWork) : Controller
         {
             VillaList = villaList,
             CheckInDate = checkInDate,
-            NumberOfNights = nights
+            NumberOfNights = numberOfNights
         });
     }
 

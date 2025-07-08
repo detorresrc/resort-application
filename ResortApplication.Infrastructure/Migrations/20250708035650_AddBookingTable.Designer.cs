@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ResortApplication.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using ResortApplication.Infrastructure.Data;
 namespace ResortApplication.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250708035650_AddBookingTable")]
+    partial class AddBookingTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -266,14 +269,14 @@ namespace ResortApplication.Infrastructure.Migrations
                     b.Property<DateTime>("ActualCheckOutDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateOnly>("BookingDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("BookingDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateOnly>("CheckInDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CheckInDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateOnly>("CheckOutDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CheckOutDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -296,7 +299,6 @@ namespace ResortApplication.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StripePaymentIntentId")
@@ -315,7 +317,7 @@ namespace ResortApplication.Infrastructure.Migrations
                     b.Property<int>("VillaId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("VillaNumberId")
+                    b.Property<int>("VillaNumberId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -543,7 +545,9 @@ namespace ResortApplication.Infrastructure.Migrations
 
                     b.HasOne("ResortApplication.Domain.Entities.VillaNumber", "VillaNumber")
                         .WithMany()
-                        .HasForeignKey("VillaNumberId");
+                        .HasForeignKey("VillaNumberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
 

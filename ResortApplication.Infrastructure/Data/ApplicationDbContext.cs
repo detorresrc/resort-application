@@ -10,6 +10,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<VillaNumber> VillaNumbers { get; set; }
     public DbSet<Amenity> Amenities { get; set; }
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+    public DbSet<Booking> Bookings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -27,6 +28,18 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .HasForeignKey(a => a.VillaId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        modelBuilder.Entity<Booking>()
+            .HasOne(b => b.Villa)
+            .WithMany(v => v.Bookings)
+            .HasForeignKey(b => b.VillaId)
+            .OnDelete(DeleteBehavior.NoAction);
+        
+        modelBuilder.Entity<Booking>()
+            .Property(b => b.Status)
+            .HasConversion(
+                v => v.ToString(),
+                v => (BookingStatus)Enum.Parse(typeof(BookingStatus), v));
+        
         modelBuilder.Entity<Villa>().HasData(
             new Villa
             {

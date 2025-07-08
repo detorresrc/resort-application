@@ -13,12 +13,15 @@ public class UnitOfWork : IUnitOfWork
         Villa = new VillaRepository(_db);
         VillaNumber = new VillaNumberRepository(_db);
         Amenity = new AmenityRepository(_db);
+        Booking = new BookingRepository(_db);
+        ApplicationUser = new ApplicationUserRepository(_db);
     }
 
     public IVillaRepository Villa { get; }
     public IVillaNumberRepository VillaNumber { get; }
     public IAmenityRepository Amenity { get; }
-
+    public IBookingRepository Booking { get;  }
+    public IApplicationUserRepository ApplicationUser { get; }
     public async Task<int> SaveAsync()
     {
         return await _db.SaveChangesAsync();

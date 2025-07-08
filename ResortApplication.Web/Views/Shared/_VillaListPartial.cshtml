@@ -5,11 +5,13 @@
     {
         @foreach (var villa in Model.VillaList)
         {
-            @await Html.PartialAsync("_VillaCardPartial", new HomeVillaChildViewModel()
-            {
-                HomeViewModel = Model,
-                Villa = villa
-            })
+            <div class="p-4 col-md-12 col-lg-6">
+                @await Html.PartialAsync("_VillasCardPartial", new HomeVillaChildViewModel()
+                {
+                    HomeViewModel = Model,
+                    Villa = villa
+                })
+            </div>
             @await Html.PartialAsync("_VillaModalPartial", new HomeVillaChildViewModel()
             {
                 HomeViewModel = Model,

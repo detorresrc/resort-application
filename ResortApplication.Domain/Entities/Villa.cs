@@ -28,6 +28,8 @@ public class Villa
     
     public ICollection<Amenity> Amenities { get; set; } = new List<Amenity>();
     public ICollection<VillaNumber> VillaNumbers { get; set; } = new List<VillaNumber>();
+    
+    public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
     public DateTime? CreatedDate { get; set; }
     public DateTime? UpdatedDate { get; set; }
