@@ -1,0 +1,20 @@
+@model HomeViewModel
+
+<div class="row px-lg-5 m-lg-4 m-sm-0 px-sm-0" style="--bs-gutter-x:0">
+    @if (Model.VillaList is not null && Model.VillaList.Any())
+    {
+        @foreach (var villa in Model.VillaList)
+        {
+            @await Html.PartialAsync("_VillaCardPartial", new HomeVillaChildViewModel()
+            {
+                HomeViewModel = Model,
+                Villa = villa
+            })
+            @await Html.PartialAsync("_VillaModalPartial", new HomeVillaChildViewModel()
+            {
+                HomeViewModel = Model,
+                Villa = villa
+            })
+        }
+    }
+</div>

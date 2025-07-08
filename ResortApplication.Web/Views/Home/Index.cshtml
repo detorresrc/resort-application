@@ -32,7 +32,13 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-    <form method="post" style="background-color:black">
+    <form method="post" 
+          style="background-color:black"
+          asp-action="GetVillasByDate"
+          data-ajax-method="POST"
+          data-ajax="true"
+          data-ajax-model="replace-with"
+          data-ajax-update="#VillasList">
         <div class="row p-0 mx-0 py-4">
 
             <div class="col-12 col-md-5  offset-md-1 pl-2  pr-2 pr-md-0">
@@ -56,7 +62,7 @@
 
             <div class="col-4 col-md-2 pt-4 pr-2">
                 <div class="form-group">
-                    <button type="button" class="btn btn-success btn-block">
+                    <button type="submit" class="btn btn-success btn-block">
                         <i class="bi bi-search"></i> &nbsp; Check Availability
                     </button>
 
@@ -66,16 +72,7 @@
         </div>
 
         <div id="VillasList">
-            <div class="row px-lg-5 m-lg-4 m-sm-0 px-sm-0" style="--bs-gutter-x:0">
-                @if (Model.VillaList is not null && Model.VillaList.Any())
-                {
-                    @foreach (var villa in Model.VillaList)
-                    {
-                        <partial name="_VillaCardPartial" model="@villa"/>
-                        <partial name="_VillaModalPartial" model="@villa"/>
-                    }
-                }
-            </div>
+            @await Html.PartialAsync("_VillaListPartial", Model)
         </div>
     </form>
 </div>

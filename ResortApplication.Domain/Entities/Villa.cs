@@ -31,4 +31,7 @@ public class Villa
 
     public DateTime? CreatedDate { get; set; }
     public DateTime? UpdatedDate { get; set; }
+    
+    [NotMapped]
+    public bool IsAvailable { get; set; } = true;
 }
