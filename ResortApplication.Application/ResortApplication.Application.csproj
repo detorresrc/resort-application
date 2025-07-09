@@ -10,4 +10,8 @@
         <ProjectReference Include="..\ResortApplication.Domain\ResortApplication.Domain.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Common\Configuration\" />
+    </ItemGroup>
+
 </Project>
