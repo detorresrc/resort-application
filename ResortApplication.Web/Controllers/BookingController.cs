@@ -83,12 +83,12 @@ public class BookingController(
     }
 
     [Authorize]
-    public async Task<IActionResult> BookingConfirmation(int bookingId)
+    public IActionResult BookingConfirmation(int bookingId)
     {
         return View(bookingId);
     }
     
-    private String GetUserId()
+    private string GetUserId()
     {
         var claimsIdentity = (ClaimsIdentity)User.Identity!;
         return claimsIdentity?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
