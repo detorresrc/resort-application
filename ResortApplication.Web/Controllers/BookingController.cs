@@ -73,6 +73,7 @@ public class BookingController(
         booking.UserId = GetUserId();
         booking.CheckInDate = checkInDate;
         booking.CheckOutDate = checkInDate.AddDays(nights);
+        booking.BookingDate = DateOnly.FromDateTime(DateTime.Now);
         booking.Nights = nights;
         booking.Status = BookingStatus.Pending;
         booking.TotalCost = villa.Price * booking.Nights;
